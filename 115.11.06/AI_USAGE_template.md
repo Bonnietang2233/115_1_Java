@@ -12,4 +12,4 @@ AI 的正確宣稱不能代替編譯執行。
 ## 對話截圖
 
 ## 對話截圖
-![](https://raw.githubusercontent.com/Bonnietang2233/115_1_Java/main/images/螢幕擷取畫面 2026-11-06 153424.png)
+![](https://raw.githubusercontent.com/Bonnietang2233/115_1_Java/main/images/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202026-11-06%20153424.png)
