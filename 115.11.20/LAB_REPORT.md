@@ -81,3 +81,37 @@
 - AI 版 drill() 改的是子類別自己宣告的那一份。
 - 這是同一台車（一個物件）裡有兩份 energy、samples，不是兩台車，也不是覆寫。
 - AI 版 drill 也沒有呼叫 countAction，所以行動次數不會增加。
+
+### E4 最小修正後重測
+修正內容（[AI] commit 保留原文，修正後以 [fix] commit）：
+1. 刪掉子類別重複宣告的 energy、samples。
+2. 刪掉建構子裡 this.energy = energy、this.samples = samples。
+3. drill 改用 Rover 提供的 protected 方法 spendEnergy、addSamples、countAction。
+4. drill 最前面補上 isStopped() 停止檢查。
+
+修正後在 ai-check 重新編譯執行 HeavyRoverTry：
+```
+鑽探: 成功 （預期 成功） 相符
+鑽探後: 12/3/1/1 （預期 12/3/1/1） 相符
+探索: 成功 （預期 成功） 相符
+探索後: 6/5/2/1 （預期 6/5/2/1） 相符
+任務完成後鑽探: 任務已停止 （預期 任務已停止） 相符
+完成後狀態維持: 6/5/2/1 （預期 6/5/2/1） 相符
+能源不足: 能源不足 （預期 能源不足） 相符
+能源不足時狀態維持: 7/0/0/0 （預期 7/0/0/0） 相符
+能源剛好足夠: 成功 （預期 成功） 相符
+能源剛好足夠時的狀態: 0/3/1/1 （預期 0/3/1/1） 相符
+能源耗盡後無法充電: 任務已停止 （預期 任務已停止） 相符
+初始能源為零: 任務已停止 （預期 任務已停止） 相符
+耗盡後狀態維持: 0/0/0/0 （預期 0/0/0/0） 相符
+初始已達標: 任務已停止 （預期 任務已停止） 相符
+達標後狀態維持: 20/5/0/0 （預期 20/5/0/0） 相符
+```
+修正前 9 行不符，修正後 15 行全部相符。修正後只剩 Rover 那一份狀態，drill 改的和 getter 讀的是同一份。
+
+### E5 補強 Prompt（來源：教師模擬回覆，本段由本人改寫）
+請寫 HeavyRover extends Rover，新增 drill()：耗 8 格能源、得 3 份樣本、行動次數加 1、鑽探次數加 1。
+Rover 的 energy、samples、actionCount 是 private，子類別不可再宣告同名欄位，狀態只能有一份；請改用 Rover 的 protected 方法 spendEnergy、addSamples、countAction，以及 public 的 isStopped 和 getter。
+drill 不經過 execute，所以要先檢查 isStopped()，已停止回「任務已停止」；能源不足回「能源不足」，被拒絕時所有狀態都不能改變。
+不可覆寫 Rover 既有方法、不可新增 setter。
+請附上至少一個能抓出「回傳成功卻沒更新狀態」的反例，例如 new HeavyRover(20, 0) 鑽探後四個 getter 應為 12/3/1/1。
