@@ -12,16 +12,26 @@ class Rover {
   + Rover(energy : int, samples : int)
   + execute(command : int) : String
   + isStopped() : boolean
-  ' 補三個本週新增的protected方法
+  # spendEnergy(amount : int) : boolean
+  # addSamples(amount : int) : void
+  # countAction() : void
 }
 class HeavyRover {
-  ' 補常數、自己的欄位、建構子與兩個方法
+  + {static} DRILL_COST : int = 8
+  + {static} DRILL_YIELD : int = 3
+  - drillCount : int
+  + HeavyRover(energy : int, samples : int)
+  + getDrillCount() : int
+  + drill() : String
 }
 class Mission {
   - rover : Rover
 }
 Mission --> "1" Rover : rover
-' 補繼承線，三角形指向父類別
-note bottom of Rover : 部分視角：省略既有getter、狀態查詢及private行動
-note bottom of Mission : 省略其他成員
+Rover <|-- HeavyRover
+note bottom of Rover
+部分視角：省略既有getter、狀態查詢及private行動
+三個protected方法為本週新增
+end note
+note bottom of Mission : 省略其他成員；Mission不直接使用HeavyRover
 @enduml

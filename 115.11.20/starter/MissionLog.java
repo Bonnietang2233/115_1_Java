@@ -7,8 +7,8 @@ import java.util.Arrays;
 public class MissionLog {
     // main：程式進入點。準備固定腳本 {1, 1, 2}（探索、探索、掃描），以能源 20、樣本 0 執行一次任務。
     public static void main(String[] args) {
-        int[] script = {1, 1, 2};
-        runMission(script, 20, 0);
+int[] script = {1, 1, 2};
+     runMission(script, 20, 0);
     }
 
     // runMission：建立一台探測車與一個任務，執行腳本後印出全部報表。
